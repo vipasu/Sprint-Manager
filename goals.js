@@ -53,12 +53,17 @@ if (Meteor.isClient) {
     };
 
     Template.leaderboard.events({
-        'click input.inc': function () {
-            Goals.update(Session.get("selected_goal"), {$inc: {score: 5}});
+        'submit': function (err, newGoal) {
+            err.preventDefault();
+            Goals.update(Session.get("selected_goal"), {$set: {name: newGoal.find("#name").value}});
         }
     });
 
     Template.goal.selected = function () {
+        return Session.equals("selected_goal", this._id) ? "selected" : '';
+    };
+
+    Template.addTask.selected = function () {
         return Session.equals("selected_goal", this._id) ? "selected" : '';
     };
 
@@ -78,7 +83,6 @@ if (Meteor.isClient) {
         } else {
             return latest;
         }
-        // TODO: Should we return the object instead of the cursor?
     }
 
     Template.goal.events({
@@ -92,7 +96,8 @@ if (Meteor.isClient) {
             err.preventDefault();
             var newGoal =  {
                 name: goal.find("#name").value,
-                sprint : Sprints.findOne({}, {sort: {start: -1}})._id
+                sprint : Sprints.findOne({}, {sort: {start: -1}})._id,
+		tasks: []
             };
             var res = Goals.insert(newGoal);
             Sprints.update({_id: newGoal.sprint}, {$push : {goals : res}});
@@ -128,4 +133,3 @@ if (Meteor.isServer) {
         }*/
     });
 }
-Goals.find().fetch();

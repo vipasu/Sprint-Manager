@@ -22,15 +22,17 @@
     {{/each}}
 </div>
   {{#if selected_name}}
-  <div class="details">
-    <div class="name">{{selected_name}}</div>
-    <input type="button" class="inc" value="Give 5 points" />
-  </div>
-  {{/if}}
-
-  {{#unless selected_name}}
-  <div class="none">Click a goal to select</div>
-  {{/unless}}
+    <fieldset>
+    <legend>Edit Goal</legend>
+    <form>
+        <label>
+            New Name:
+            <input id="name" />
+        </label>
+        <input type="submit" value="Edit Goal" />
+    </form>
+    </fieldset>
+    {{/if}}
 </template>
 
 <template name="sprint">
