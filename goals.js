@@ -15,21 +15,15 @@ if (Meteor.isClient) {
         return goal && goal.name;
     };
 
-    Template.goal.selected = function () {
-        return Session.equals("selected_goal", this._id) ? "selected" : '';
-    };
-
     Template.leaderboard.events({
         'click input.inc': function () {
             Goals.update(Session.get("selected_goal"), {$inc: {score: 5}});
         }
     });
 
-    Template.goal.events({
-        'click': function () {
-            Session.set("selected_goal", this._id);
-        }
-    });
+    Template.goal.selected = function () {
+        return Session.equals("selected_goal", this._id) ? "selected" : '';
+    };
 
     Template.goal.tasks = function(){
         //return Tasks.find({goal: this.name});
@@ -37,6 +31,12 @@ if (Meteor.isClient) {
         return Tasks.find({_id: { $in : tasklist} });
         //return the lookup of all the tasks
     }
+
+    Template.goal.events({
+        'click': function () {
+            Session.set("selected_goal", this._id);
+        }
+    });
 
     Template.addTask.events = {
         'submit': function(err, task) {
@@ -57,15 +57,14 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
     Meteor.startup(function () {
         if (Goals.find().count() == 0) {
-            var names = ["Health",
-        "School",
-        "Social"];
-    Goals.insert({name: "Health", tasks: []});
+            Goals.insert({name: "Health", tasks: []});
         }
         var now = new Date();
-        var username = 'test';
+
+        var username = prompt('name'); //'test';
         if (Settings.find({name: username}).count() === 0) {
             Settings.insert({name: username, start: now, sprint: now, hours_per_day: 8, days_per_week: 5});
         }
     });
 }
+Goals.find().fetch();
