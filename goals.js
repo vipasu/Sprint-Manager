@@ -62,11 +62,6 @@ if (Meteor.isClient) {
         //return start.getDate();
     });
     Template.leaderboard.events({
-<<<<<<< HEAD
-        'submit': function (err, newGoal) {
-            err.preventDefault();
-            Goals.update(Session.get("selected_goal"), {$set: {name: newGoal.find("#name").value}});
-=======
         'click input.inc': function (e, task) {
             e.preventDefault();
             Session.dummy = task;
@@ -75,7 +70,6 @@ if (Meteor.isClient) {
             console.log("name: " + taskname + ", hours: " + hours );
             taskid = Tasks.findOne({name: taskname})._id;
             Tasks.update({_id: taskid}, {$inc: {hours_done: hours}});
->>>>>>> 36a9442685ae13ffac384bb7b93af6490e9c90b0
         }
     });
 
@@ -83,16 +77,9 @@ if (Meteor.isClient) {
         return Session.equals("selected_goal", this._id) ? "selected" : '';
     };
 
-<<<<<<< HEAD
-    Template.addTask.selected = function () {
-        return Session.equals("selected_goal", this._id) ? "selected" : '';
-    };
-
-=======
     Template.leaderboard.tasks = function(){
         return Tasks.find();
     }
->>>>>>> 36a9442685ae13ffac384bb7b93af6490e9c90b0
     Template.goal.tasks = function(){
         var tasklist = Goals.findOne({name: this.name}).tasks;
         if (tasklist === undefined)
@@ -126,11 +113,7 @@ if (Meteor.isClient) {
             var newGoal =  {
                 name: goal.find("#name").value,
                 sprint : Sprints.findOne({}, {sort: {start: -1}})._id,
-<<<<<<< HEAD
 		tasks: []
-=======
-                tasks : []
->>>>>>> 36a9442685ae13ffac384bb7b93af6490e9c90b0
             };
             var res = Goals.insert(newGoal);
             Sprints.update({_id: newGoal.sprint}, {$push : {goals : res}});
