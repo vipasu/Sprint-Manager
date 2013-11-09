@@ -37,7 +37,9 @@ if (Meteor.isClient) {
     }
 
     Template.sprint.goals = function () {
-        return Goals.find({_id: {$in : this.goals}});
+        var res =  Goals.find({_id: {$in : this.goals}});
+        return res
+
     };
 
     Handlebars.registerHelper('sprint_empty', function(){
@@ -53,8 +55,14 @@ if (Meteor.isClient) {
     };
 
     Template.leaderboard.events({
-        'click input.inc': function () {
-            Goals.update(Session.get("selected_goal"), {$inc: {score: 5}});
+        'click input.inc': function (e, task) {
+            e.preventDefault();
+            Session.dummy = task;
+            var taskname = task.find("#taskU option:selected").text;
+            var hours = parseInt(task.find("#hours_done").value);
+            console.log("name: " + taskname + ", hours: " + hours );
+            taskid = Tasks.findOne({name: taskname})._id;
+            Tasks.update({_id: taskid}, {$inc: {hours_done: hours}});
         }
     });
 
@@ -67,7 +75,10 @@ if (Meteor.isClient) {
     }
     Template.goal.tasks = function(){
         var tasklist = Goals.findOne({name: this.name}).tasks;
-        return Tasks.find({_id: { $in : tasklist} });
+        if (tasklist === undefined)
+            return;
+        var res = Tasks.find({_id: { $in : tasklist} });
+        return res;
     }
 
     Template.leaderboard.sprint = function() {
@@ -106,6 +117,7 @@ if (Meteor.isClient) {
     Template.addTask.events = {
         'submit': function(err, task) {
             err.preventDefault();
+            Session.task = task;
             var newTask =  {
                 name: task.find("#name").value,
                 goal: task.find("#category").value,
@@ -113,7 +125,7 @@ if (Meteor.isClient) {
                 hours_done: 0
             };
             var res = Tasks.insert(newTask);
-            var goal_id = Goals.findOne({name: newTask.goal})._id
+            var goal_id = Goals.findOne({name: newTask.goal})._id;
             Goals.update({_id: goal_id}, {$push : {tasks: res}});
         }
     }

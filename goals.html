@@ -18,7 +18,7 @@
 </body>
 
 <template name="taskname">
-<option value=""+{{name}}>{{name}}</option>
+    <option value=""+{{name}}>{{name}}</option>
 </template>
 
 <template name="leaderboard">
@@ -26,18 +26,24 @@
     {{#each sprints}}
     {{> sprint}}
     {{/each}}
-    <form action="">
-        <select name="task">
+    <form>
+        <legend>Update Task</legend>
+        <select id="taskU">
             {{#each tasks}}
                 {{> taskname}}
             {{/each}}
         </select>
+        <label>
+            Hours worked:
+            <input id="hours_done" />
+        </label>
+        <input type="button" class="inc" value="Update Task" />
     </form>
 </div>
   {{#if selected_name}}
   <div class="details">
     <div class="name">{{selected_name}}</div>
-    <input type="button" class="inc" value="Give 5 points" />
+    <!--<input type="button" class="inc" value="Give 5 points" />-->
   </div>
   {{/if}}
 
@@ -69,7 +75,8 @@
 
 <template name="task">
     <span class="name">{{name}}</span>
-    <span class="time">{{time}}</span>
+    <span class="length">{{hours}} total </span>
+    <span class="completed">{{hours_done}} done </span>
 </template>
 
 <template name="addTask">
