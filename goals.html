@@ -6,6 +6,7 @@
   <div id="outer">
     {{> leaderboard}}
   </div>
+  {{> addTask}}
 </body>
 
 <template name="leaderboard">
@@ -30,7 +31,34 @@
 <template name="goal">
   <div class="goal {{selected}}">
     <span class="name">{{name}}</span>
-    <span class="score">{{score}}</span>
+    {{#each tasks}}
+        {{> task}}
+    {{/each}}
   </div>
 </template>
 
+<template name="task">
+    <span class="name">{{name}}</span>
+    <span class="time">{{time}}</span>
+</template>
+
+<template name="addTask">
+    <fieldset>
+    <legend>Add New Task</legend>
+    <form>
+        <label>
+            Name:
+            <input id="name" />
+        </label>
+        <label>
+            Category:
+            <input id="category" />
+        </label>
+        <label>
+            Time:
+            <input id="hours" />
+        </label>
+        <input type="submit" value="Add Task" />
+    </form>
+    </fieldset>
+</template>
