@@ -59,7 +59,7 @@ if (Meteor.isServer) {
      Goals.insert({name: "Health", tasks: ["Exercise", "Sleep"]});
     }
     var now = new Date();
-    var username = 'test';
+    var username = 'Your Name';
     if (Settings.find({name: username}).count() === 0) {
         Settings.insert({name: username, start: now, sprint: now, hours_per_day: 8, days_per_week: 5});
     }
