@@ -1,5 +1,7 @@
 <head>
   <title>Sprint Manager</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
 </head>
 
 <body>
@@ -16,7 +18,9 @@
     {{> leaderboard}}
   </div>
     {{/if}}
+
 </body>
+
 
 <template name="taskname">
     <option value=""+{{name}}>{{name}}</option>
@@ -24,6 +28,8 @@
 
 <template name="leaderboard">
 <div class="leaderboard">
+
+    
     <h1>Week of {{sprint_date}}</h1>
     {{#each sprints}}
     {{> sprint}}
@@ -37,10 +43,9 @@
             {{/each}}
         </select>
         <label>
-            Hours worked:
-            <input id="hours_done" />
+            <input id="hours_done" placeholder="hours completed"/>
         </label>
-        <input type="button" class="inc" value="Update Task" />
+        <input id="updateTaskButton" type="button" class="inc" value="Update Task" />
         </fieldset>
     </form>
 </div>
@@ -61,8 +66,14 @@
     {{#each goals}}
       {{> goal}}
     {{/each}}
-    {{> newGoal}}
-    {{> addTask}}
+
+    <div class="span3 pull-right" id="navbar">
+        <ul class="nav nav-list" id="box">
+            <li class="nav-header">Y-Hack</li>
+            <li>{{> newGoal}}</li>
+            <li>{{> addTask}}</li>
+        </ul>
+    </div>
   </div>
 
   <!--{{#if sprint_empty}}-->
@@ -71,7 +82,7 @@
 
 <template name="goal">
   <div class="goal {{selected}}">
-    <span class="name">{{name}}</span>
+    <h1 class="goalName" >{{name}}</h1>
     {{#each tasks}}
         {{> task}}
     {{/each}}
@@ -89,17 +100,17 @@
     <form>
         <label>
             Name:
-            <input id="task_name" />
+            <input id="task_name" placeholder = "name"/>
         </label>
         <label>
             Category:
-            <input id="category" />
+            <input id="category" placeholder = "goal"/>
         </label>
         <label>
             Time:
-            <input id="hours" />
+            <input id="hours" placeholder = "time"/>
         </label>
-        <input type="submit" value="Add Task" />
+        <input id = "taskButton" type="submit" value="+ task" />
     </form>
     </fieldset>
 </template>
@@ -110,9 +121,9 @@
     <form>
         <label>
             Name:
-            <input id="name" />
+            <input id="name" placeholder = "name"/>
         </label>
-        <input type="submit" value="Add Goal" />
+        <input id ="goalButton" type="submit" value="+ goal" />
     </form>
     </fieldset>
 </template>

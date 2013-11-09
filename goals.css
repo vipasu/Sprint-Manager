@@ -60,3 +60,39 @@ body {
 .inc {
   cursor: pointer;
 }
+
+#navbar {
+    color: #FFFFFF;
+    text-align: center;
+    min-height: 100%;
+    border-style: 1px solid #000000;
+    position: absolute;
+    left: 75%;
+    top: 10%;
+}
+
+input {
+    color: grey;
+}
+
+#goalButton, #taskButton, #updateTaskButton{
+    background-color: none;
+    background: none;
+    border: none;
+}
+
+#goalButton:hover, #taskButton:hover, #updateTaskButton:hover {
+    color: #3B5998;
+}
+
+#taskU {
+    border: none;
+}
+
+select option {
+    background: none;
+}
+
+.goal .goalName {
+    border-bottom: 1px solid black;
+}
