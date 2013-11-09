@@ -28,7 +28,7 @@ if (Meteor.isClient) {
                 days_per_week: parseInt(newProfile.find("#dpw").value)
             };
             Settings.insert(profile);
-        Sprints.insert({goals:[], start: prev_sunday});
+            Sprints.insert({goals:[], start: prev_sunday});
         }
     };
 
@@ -37,7 +37,9 @@ if (Meteor.isClient) {
     }
 
     Template.sprint.goals = function () {
-        return Goals.find({_id: {$in : this.goals}});
+        var res =  Goals.find({_id: {$in : this.goals}});
+        return res
+
     };
 
     Handlebars.registerHelper('sprint_empty', function(){
@@ -52,10 +54,28 @@ if (Meteor.isClient) {
         return goal && goal.name;
     };
 
+    //Template.leaderboard.sprint_date = function(){
+    Handlebars.registerHelper('sprint_date', function(){
+        var start = Sprints.findOne({},{sort: {start:-1}}).start;
+        return start;
+        //return ""+ start.getDay() + start.getMonth() + start.getDate() + start.getFullYear();
+        //return start.getDate();
+    });
     Template.leaderboard.events({
+<<<<<<< HEAD
         'submit': function (err, newGoal) {
             err.preventDefault();
             Goals.update(Session.get("selected_goal"), {$set: {name: newGoal.find("#name").value}});
+=======
+        'click input.inc': function (e, task) {
+            e.preventDefault();
+            Session.dummy = task;
+            var taskname = task.find("#taskU option:selected").text;
+            var hours = parseInt(task.find("#hours_done").value);
+            console.log("name: " + taskname + ", hours: " + hours );
+            taskid = Tasks.findOne({name: taskname})._id;
+            Tasks.update({_id: taskid}, {$inc: {hours_done: hours}});
+>>>>>>> 36a9442685ae13ffac384bb7b93af6490e9c90b0
         }
     });
 
@@ -63,13 +83,22 @@ if (Meteor.isClient) {
         return Session.equals("selected_goal", this._id) ? "selected" : '';
     };
 
+<<<<<<< HEAD
     Template.addTask.selected = function () {
         return Session.equals("selected_goal", this._id) ? "selected" : '';
     };
 
+=======
+    Template.leaderboard.tasks = function(){
+        return Tasks.find();
+    }
+>>>>>>> 36a9442685ae13ffac384bb7b93af6490e9c90b0
     Template.goal.tasks = function(){
         var tasklist = Goals.findOne({name: this.name}).tasks;
-        return Tasks.find({_id: { $in : tasklist} });
+        if (tasklist === undefined)
+            return;
+        var res = Tasks.find({_id: { $in : tasklist} });
+        return res;
     }
 
     Template.leaderboard.sprint = function() {
@@ -97,7 +126,11 @@ if (Meteor.isClient) {
             var newGoal =  {
                 name: goal.find("#name").value,
                 sprint : Sprints.findOne({}, {sort: {start: -1}})._id,
+<<<<<<< HEAD
 		tasks: []
+=======
+                tasks : []
+>>>>>>> 36a9442685ae13ffac384bb7b93af6490e9c90b0
             };
             var res = Goals.insert(newGoal);
             Sprints.update({_id: newGoal.sprint}, {$push : {goals : res}});
@@ -107,14 +140,15 @@ if (Meteor.isClient) {
     Template.addTask.events = {
         'submit': function(err, task) {
             err.preventDefault();
+            Session.task = task;
             var newTask =  {
-                name: task.find("#name").value,
+                name: task.find("#task_name").value,
                 goal: task.find("#category").value,
                 hours: task.find("#hours").value,
                 hours_done: 0
             };
             var res = Tasks.insert(newTask);
-            var goal_id = Goals.findOne({name: newTask.goal})._id
+            var goal_id = Goals.findOne({name: newTask.goal})._id;
             Goals.update({_id: goal_id}, {$push : {tasks: res}});
         }
     }
@@ -126,10 +160,5 @@ if (Meteor.isServer) {
         if (Goals.find().count() == 0) {
             Goals.insert({name: "Health", tasks: []});
         }
-        var now = new Date();
-
-        /*if (Settings.find({name: username}).count() === 0) {
-            Settings.insert({name: username, start: now, sprint: now, hours_per_day: 8, days_per_week: 5});
-        }*/
     });
 }
