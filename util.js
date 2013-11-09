@@ -25,3 +25,6 @@ var update_settings = function(id, field, value) {
 		  { $set: {field: value} }
 		  );
 };
+
+// TODO: Messages.find().fetch() -> array of objects
+// Iterate over message
