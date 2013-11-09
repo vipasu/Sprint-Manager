@@ -3,6 +3,8 @@
 </head>
 
 <body>
+    <h1>
+    </h1>
     {{#if newUser}}
     <div id="signup">
      {{> newProfile}}
@@ -13,7 +15,6 @@
   <div id="outer">
     {{> leaderboard}}
   </div>
-  {{> addTask}}
     {{/if}}
 </body>
 
@@ -23,10 +24,12 @@
 
 <template name="leaderboard">
 <div class="leaderboard">
+    <h1>Week of {{sprint_date}}</h1>
     {{#each sprints}}
     {{> sprint}}
     {{/each}}
     <form>
+        <fieldset>
         <legend>Update Task</legend>
         <select id="taskU">
             {{#each tasks}}
@@ -38,14 +41,15 @@
             <input id="hours_done" />
         </label>
         <input type="button" class="inc" value="Update Task" />
+        </fieldset>
     </form>
 </div>
-  {{#if selected_name}}
+  <!--{{#if selected_name}}
   <div class="details">
     <div class="name">{{selected_name}}</div>
-    <!--<input type="button" class="inc" value="Give 5 points" />-->
+    <input type="button" class="inc" value="Give 5 points" />
   </div>
-  {{/if}}
+  {{/if}}-->
 
   {{#unless selected_name}}
   <div class="none">Click a goal to select</div>
@@ -57,11 +61,12 @@
     {{#each goals}}
       {{> goal}}
     {{/each}}
+    {{> newGoal}}
+    {{> addTask}}
   </div>
 
-  {{#if sprint_empty}}
-    {{> newGoal}}
-  {{/if}}
+  <!--{{#if sprint_empty}}-->
+    <!--{{/if}}-->
 </template>
 
 <template name="goal">
@@ -75,8 +80,7 @@
 
 <template name="task">
     <span class="name">{{name}}</span>
-    <span class="length">{{hours}} total </span>
-    <span class="completed">{{hours_done}} done </span>
+    <span class="duration">{{hours_done}}/{{hours}} hours completed</span>
 </template>
 
 <template name="addTask">
@@ -85,7 +89,7 @@
     <form>
         <label>
             Name:
-            <input id="name" />
+            <input id="task_name" />
         </label>
         <label>
             Category:

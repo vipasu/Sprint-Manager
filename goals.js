@@ -54,6 +54,13 @@ if (Meteor.isClient) {
         return goal && goal.name;
     };
 
+    //Template.leaderboard.sprint_date = function(){
+    Handlebars.registerHelper('sprint_date', function(){
+        var start = Sprints.findOne({},{sort: {start:-1}}).start;
+        return start;
+        //return ""+ start.getDay() + start.getMonth() + start.getDate() + start.getFullYear();
+        //return start.getDate();
+    });
     Template.leaderboard.events({
         'click input.inc': function (e, task) {
             e.preventDefault();
@@ -119,7 +126,7 @@ if (Meteor.isClient) {
             err.preventDefault();
             Session.task = task;
             var newTask =  {
-                name: task.find("#name").value,
+                name: task.find("#task_name").value,
                 goal: task.find("#category").value,
                 hours: task.find("#hours").value,
                 hours_done: 0
@@ -137,11 +144,6 @@ if (Meteor.isServer) {
         if (Goals.find().count() == 0) {
             Goals.insert({name: "Health", tasks: []});
         }
-        var now = new Date();
-
-        /*if (Settings.find({name: username}).count() === 0) {
-            Settings.insert({name: username, start: now, sprint: now, hours_per_day: 8, days_per_week: 5});
-        }*/
     });
 }
 Goals.find().fetch();
