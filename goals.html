@@ -3,19 +3,37 @@
 </head>
 
 <body>
+    {{#if newUser}}
+    <div id="signup">
+     {{> newProfile}}
+    </div>
+    {{else}}
   <div id="outer">
     {{> leaderboard}}
   </div>
   {{> addTask}}
+    {{/if}}
 </body>
 
-<template name="leaderboard">
-  <div class="leaderboard">
+
+<template name="sprint">
+  <div class="sprint">
     {{#each goals}}
       {{> goal}}
     {{/each}}
   </div>
 
+  {{#if sprint_empty}}
+    {{> newGoal}}
+  {{/if}}
+</template>
+
+<template name="leaderboard">
+<div class="leaderboard">
+    {{#each sprints}}
+    {{> sprint}}
+    {{/each}}
+</div>
   {{#if selected_name}}
   <div class="details">
     <div class="name">{{selected_name}}</div>
@@ -59,6 +77,48 @@
             <input id="hours" />
         </label>
         <input type="submit" value="Add Task" />
+    </form>
+    </fieldset>
+</template>
+
+<template name="newGoal">
+    <fieldset>
+    <legend>Add New Goal</legend>
+    <form>
+        <label>
+            Name:
+            <input id="name" />
+        </label>
+        <label>
+            Category:
+            <input id="category" />
+        </label>
+        <label>
+            Time:
+            <input id="hours" />
+        </label>
+        <input type="submit" value="Add Goal" />
+    </form>
+    </fieldset>
+</template>
+
+<template name="newProfile">
+    <fieldset>
+    <legend>Add New Profile</legend>
+    <form>
+        <label>
+            Name:
+            <input id="name" />
+        </label>
+        <label>
+            Work hours per day:
+            <input id="hpd" />
+        </label>
+        <label>
+            Work days per week:
+            <input id="dpw" />
+        </label>
+        <input type="submit" value="Add Profile" />
     </form>
     </fieldset>
 </template>
