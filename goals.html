@@ -49,11 +49,11 @@
     <div class="name">{{selected_name}}</div>
     <input type="button" class="inc" value="Give 5 points" />
   </div>
-  {{/if}}-->
+  {{/if}}
 
   {{#unless selected_name}}
   <div class="none">Click a goal to select</div>
-  {{/unless}}
+  {{/unless}}-->
 </template>
 
 <template name="sprint">
@@ -71,7 +71,7 @@
 
 <template name="goal">
   <div class="goal {{selected}}">
-    <span class="name">{{name}}</span>
+      <h1>{{name}}</h1>
     {{#each tasks}}
         {{> task}}
     {{/each}}

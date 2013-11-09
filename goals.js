@@ -57,9 +57,7 @@ if (Meteor.isClient) {
     //Template.leaderboard.sprint_date = function(){
     Handlebars.registerHelper('sprint_date', function(){
         var start = Sprints.findOne({},{sort: {start:-1}}).start;
-        return start;
-        //return ""+ start.getDay() + start.getMonth() + start.getDate() + start.getFullYear();
-        //return start.getDate();
+        return start.toDateString();
     });
     Template.leaderboard.events({
         'click input.inc': function (e, task) {
