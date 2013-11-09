@@ -8,6 +8,8 @@
      {{> newProfile}}
     </div>
     {{else}}
+    <div id="stats">
+    </div>
   <div id="outer">
     {{> leaderboard}}
   </div>
@@ -15,11 +17,22 @@
     {{/if}}
 </body>
 
+<template name="taskname">
+<option value=""+{{name}}>{{name}}</option>
+</template>
+
 <template name="leaderboard">
 <div class="leaderboard">
     {{#each sprints}}
     {{> sprint}}
     {{/each}}
+    <form action="">
+        <select name="task">
+            {{#each tasks}}
+                {{> taskname}}
+            {{/each}}
+        </select>
+    </form>
 </div>
   {{#if selected_name}}
   <div class="details">

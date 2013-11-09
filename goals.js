@@ -28,7 +28,7 @@ if (Meteor.isClient) {
                 days_per_week: parseInt(newProfile.find("#dpw").value)
             };
             Settings.insert(profile);
-        Sprints.insert({goals:[], start: prev_sunday});
+            Sprints.insert({goals:[], start: prev_sunday});
         }
     };
 
@@ -62,6 +62,9 @@ if (Meteor.isClient) {
         return Session.equals("selected_goal", this._id) ? "selected" : '';
     };
 
+    Template.leaderboard.tasks = function(){
+        return Tasks.find();
+    }
     Template.goal.tasks = function(){
         var tasklist = Goals.findOne({name: this.name}).tasks;
         return Tasks.find({_id: { $in : tasklist} });
@@ -92,7 +95,8 @@ if (Meteor.isClient) {
             err.preventDefault();
             var newGoal =  {
                 name: goal.find("#name").value,
-                sprint : Sprints.findOne({}, {sort: {start: -1}})._id
+                sprint : Sprints.findOne({}, {sort: {start: -1}})._id,
+                tasks : []
             };
             var res = Goals.insert(newGoal);
             Sprints.update({_id: newGoal.sprint}, {$push : {goals : res}});
