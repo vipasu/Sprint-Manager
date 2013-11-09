@@ -10,8 +10,8 @@
 
 <template name="leaderboard">
   <div class="leaderboard">
-    {{#each tasks}}
-      {{> task}}
+    {{#each goals}}
+      {{> goal}}
     {{/each}}
   </div>
 
@@ -23,12 +23,12 @@
   {{/if}}
 
   {{#unless selected_name}}
-  <div class="none">Click a task to select</div>
+  <div class="none">Click a goal to select</div>
   {{/unless}}
 </template>
 
-<template name="task">
-  <div class="task {{selected}}">
+<template name="goal">
+  <div class="goal {{selected}}">
     <span class="name">{{name}}</span>
     <span class="score">{{score}}</span>
   </div>
