@@ -44,31 +44,10 @@
         </fieldset>
     </form>
 </div>
-<<<<<<< HEAD
-  {{#if selected_name}}
-    <fieldset>
-    <legend>Edit Goal</legend>
-    <form>
-        <label>
-            New Name:
-            <input id="name" />
-        </label>
-        <input type="submit" value="Edit Goal" />
-    </form>
-    </fieldset>
-    {{/if}}
-=======
-  <!--{{#if selected_name}}
-  <div class="details">
-    <div class="name">{{selected_name}}</div>
-    <input type="button" class="inc" value="Give 5 points" />
-  </div>
-  {{/if}}-->
 
   {{#unless selected_name}}
   <div class="none">Click a goal to select</div>
   {{/unless}}
->>>>>>> 36a9442685ae13ffac384bb7b93af6490e9c90b0
 </template>
 
 <template name="sprint">
@@ -80,8 +59,6 @@
     {{> addTask}}
   </div>
 
-  <!--{{#if sprint_empty}}-->
-    <!--{{/if}}-->
 </template>
 
 <template name="goal">
