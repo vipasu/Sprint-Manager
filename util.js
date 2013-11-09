@@ -23,7 +23,7 @@ var edit_settings = function(id, field, value) {
   Settings.update(
 		  { _id : id },
 		  { $set: {field: value} },
-		  { multi: false},
+		  { multi: false}
 		  );
 };
 
@@ -36,7 +36,7 @@ var add_hours = function(id, hours) {
   Tasks.update(
 		  { _id : id},
 		  { $inc: {hours_done: hours} },
-		  { multi: false},
+		  { multi: false}
 		  );
   var task = Tasks.findOne({_id : id});
   var hours_left = task.hours - task.hours_done;
