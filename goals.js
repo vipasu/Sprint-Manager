@@ -15,26 +15,31 @@ if (Meteor.isClient) {
     Template.newProfile.events = {
         'submit': function(err, newProfile) {
             var now = new Date();
+            var days_past = now.getDay();
+            var prev_sunday = new Date(now - days_past * 24 * 60 * 60 * 1000);
+            // Set to 12:00 AM
+            prev_sunday.setHours(0,0,0,0);
+
             var profile = {
                 name: newProfile.find("#name").value,
                 start: now,
-                sprint: now,
+                sprint: prev_sunday,
                 hours_per_day: parseInt(newProfile.find("#hpd").value),
                 days_per_week: parseInt(newProfile.find("#dpw").value)
             };
             Settings.insert(profile);
+        Sprints.insert({goals:[], start: prev_sunday});
         }
     };
 
     Template.leaderboard.sprints = function() {
         return Sprints.find({},{ sort : { start : -1}});
     }
-    // TODO: Rename this (but not sprint.goals, because sprint uses each goals, referring to different)
+
     Template.sprint.goals = function () {
         return Goals.find({_id: {$in : this.goals}});
     };
 
-    // TODO: It's not liking the sorting the Date object
     Handlebars.registerHelper('sprint_empty', function(){
         var curr_sprint = Sprints.findOne({},{ sort : { start : -1}});
         if (curr_sprint === undefined)
