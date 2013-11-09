@@ -15,19 +15,6 @@
     {{/if}}
 </body>
 
-
-<template name="sprint">
-  <div class="sprint">
-    {{#each goals}}
-      {{> goal}}
-    {{/each}}
-  </div>
-
-  {{#if sprint_empty}}
-    {{> newGoal}}
-  {{/if}}
-</template>
-
 <template name="leaderboard">
 <div class="leaderboard">
     {{#each sprints}}
@@ -44,6 +31,18 @@
   {{#unless selected_name}}
   <div class="none">Click a goal to select</div>
   {{/unless}}
+</template>
+
+<template name="sprint">
+  <div class="sprint">
+    {{#each goals}}
+      {{> goal}}
+    {{/each}}
+  </div>
+
+  {{#if sprint_empty}}
+    {{> newGoal}}
+  {{/if}}
 </template>
 
 <template name="goal">
@@ -88,14 +87,6 @@
         <label>
             Name:
             <input id="name" />
-        </label>
-        <label>
-            Category:
-            <input id="category" />
-        </label>
-        <label>
-            Time:
-            <input id="hours" />
         </label>
         <input type="submit" value="Add Goal" />
     </form>

@@ -8,13 +8,6 @@ Settings = new Meteor.Collection("settings");
 
 if (Meteor.isClient) {
 
-    var clearUser = function() {
-        while (Settings.findOne() !== 'undefined'){
-            Settings.remove({_id : Settings.findOne()._id});
-        }
-
-    };
-
     Handlebars.registerHelper('newUser', function(){
         return (Settings.find().count() == 0);
     });
@@ -34,7 +27,7 @@ if (Meteor.isClient) {
     };
 
     Template.leaderboard.sprints = function() {
-        return Sprint.findOne({},{ sort : { start : -1}});
+        return Sprints.find({},{ sort : { start : -1}});
     }
     // TODO: Rename this (but not sprint.goals, because sprint uses each goals, referring to different)
     Template.sprint.goals = function () {
@@ -42,12 +35,12 @@ if (Meteor.isClient) {
     };
 
     // TODO: It's not liking the sorting the Date object
-    Template.sprint.sprint_empty = function () {
+    Handlebars.registerHelper('sprint_empty', function(){
         var curr_sprint = Sprints.findOne({},{ sort : { start : -1}});
         if (curr_sprint === undefined)
             return false;
         return curr_sprint.goals.length === 0;
-    };
+    });
 
     Template.leaderboard.selected_name = function () {
         var goal = Goals.findOne(Session.get("selected_goal"));
@@ -88,6 +81,18 @@ if (Meteor.isClient) {
             Session.set("selected_goal", this._id);
         }
     });
+
+    Template.newGoal.events = {
+        'submit': function(err, goal) {
+            err.preventDefault();
+            var newGoal =  {
+                name: goal.find("#name").value,
+                sprint : Sprints.findOne({}, {sort: {start: -1}})._id
+            };
+            var res = Goals.insert(newGoal);
+            Sprints.update({_id: newGoal.sprint}, {$push : {goals : res}});
+        }
+    }
 
     Template.addTask.events = {
         'submit': function(err, task) {
